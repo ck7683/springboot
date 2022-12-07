@@ -27,6 +27,6 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Sex sex;
 
-    @Column(length = 2)
-    private Boolean is_delete;
+    @Column(name = "is_delete")
+    private Boolean isDelete;
 }

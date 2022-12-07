@@ -22,17 +22,19 @@ public class UserController {
     public User getUser(@PathVariable("userId") Long userId) {
         return userService.getUser(userId);
     }
-    @PostMapping("/{userId}")
-    public User createUser(@PathVariable("userId") Long userId) {
-        return userService.getUser(userId);
+
+    @PostMapping(value="", consumes="application/json")
+    public String createUser(@RequestBody User user) {
+        return userService.saveNewUser(user) ? "ok" : "failure";
     }
     @PutMapping("/{userId}")
     public User updateUser(@PathVariable("userId") Long userId) {
         return userService.getUser(userId);
     }
+
     @DeleteMapping("/{userId}")
-    public User deleteUser(@PathVariable("userId") Long userId) {
-        return userService.getUser(userId);
+    public String deleteUser(@PathVariable("userId") Long userId) {
+        return userService.removeUser(userId) ? "ok" : "failure";
     }
 
 }

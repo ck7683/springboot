@@ -15,7 +15,7 @@ public class UserService {
     private UserRepository userRepository;
 
     public List<User> getUsers() {
-        return userRepository.findAll();
+        return userRepository.findByIsDelete(false);
     }
 
     public User getUser(String name) {
@@ -23,6 +23,30 @@ public class UserService {
     }
 
     public User getUser(Long id) {
-        return userRepository.getById(id);
+        return userRepository.findById(id).orElse(new User());
+    }
+
+    public boolean saveNewUser(User user) {
+        try{
+            user.setId(null);
+            user.setIsDelete(false);
+            userRepository.save(user);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    public boolean removeUser(Long id) {
+        try {
+            User user = userRepository.getById(id);
+            user.setIsDelete(true);
+            userRepository.save(user);
+        } catch(Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 }
